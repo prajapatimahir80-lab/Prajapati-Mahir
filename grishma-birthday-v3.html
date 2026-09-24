@@ -1120,7 +1120,7 @@
     <!-- CTA -->
     <div class="cta-wrap reveal">
       <div class="cta-hint">There's something special waiting for you… 👀</div>
-      <button class="cta-btn" onclick="openLetter()">
+      <button class="cta-btn" onclick="openSecondLetter()">
         There's one more thing
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
           <path d="M5 12h14M13 6l6 6-6 6" />
@@ -1348,42 +1348,106 @@ I wrote all of this hoping that I could make you smile at least once. 🥹
 
 — Someone who will always wish the best for you. ❤️`;
 
+    const secondMessage = `Yaar, I honestly don't know whether I was ever important in your life, or what I really meant to you. Maybe I was, maybe I wasn't — and honestly, I don't think I'll ever know for sure. But one thing I do know is this: you were important to me then, you are important to me today, and I think you'll always have a special place in my heart. 🤍
+
+And yaar, I am genuinely thankful to God for whatever amount of time you stayed in my life. For every conversation, every memory, every little moment, every bit of your time that you gave me — no matter how small it may have felt to you, it meant a lot to me. I could say thank you a hundred times and it still wouldn't feel enough. 🥹✨
+
+I don't know how to explain it, but somehow, with every passing day, I care about you even more. But please don't take that as an expectation from you. I don't expect anything from you in return. I just wanted you to know how I feel, without asking you for anything.
+
+And yes… I get jealous. A lot sometimes. 😅 But I know your life is yours, and I don't want to become another problem or make things difficult for you. You deserve to live your life peacefully, and I genuinely want that for you. 🤍
+
+But yaar, whenever you feel lonely — if that day ever comes — I want you to remember that I'm here. Maybe you will never actually need me, and that's okay too. But if you ever feel angry, upset, or just have something you can't keep inside, message me. We can argue, fight, have our little kalesh 😂 — and I promise I won't take it the wrong way.
+
+Honestly, by now I've become so used to your little anger and drama that it doesn't even bother me anymore. 😂 And yaar, I don't think I've ever been able to stay upset with you for long. If something you say ever hurts me, maybe it lasts for two minutes… five minutes at most. Then somehow I just forget it and move on. That's just how I am with you. 🤍
+
+And I'm genuinely sorry for any problems you may have faced because of me. If anything I did ever hurt you, made things difficult for you, or caused you stress, I'm very, very, very sorry. I never wanted to hurt you. I never wanted my feelings to become a burden for you. 🥺
+
+And yaar… there are some old memories that I still remember so clearly.
+
+Do you remember when we were in 9th class and it was your birthday? Sujal wished you happy birthday, and I remember feeling so jealous at that time. 😂 I don't even know why I was like that, but I remember it.
+
+And do you remember Hardik Uncle's wedding? The day before the wedding, we had a test at tuition. You came wearing that green chaniya choli, and yaar… you looked absolutely magnificent. 💚✨
+
+I was supposed to be writing my test, but honestly, my attention was somewhere else the entire time. 😂 I think I barely wrote half the paper. And when you finished your paper and walked outside, I don't even know what happened to me — I finished mine and came outside too, just to see you.
+
+And that smile of yours that day… yaar, I genuinely can't explain it. It was one of those little moments that somehow stayed in my memory. 🥹🤍
+
+And then last year, when we met at Garba one day before your birthday… yaar, you were wearing that white and blue chaniya choli, and you looked absolutely stunning. 💙🤍
+
+I wanted to be the first person to wish you happy birthday. That was genuinely what I wanted. But then Sujal called and something happened, and I couldn't say it. Even though I was there, I couldn't do what I had wanted to do, and honestly, I felt really guilty about that.
+
+And then on your birthday night, I went to Garba with my uncle. There, I saw a girl wearing a chaniya choli that looked almost exactly like yours. For a second, I genuinely thought it was you. 😂 Then I realized it wasn't.
+
+Maybe these things sound silly now, but these tiny memories are the kind of things I remember. And I guess that's why they still matter to me. 🤍
+
+Anyway yaar, I don't want to make you overthink any of this. Please don't take this letter as pressure, and please don't feel like you have to give me any answer. I just wanted to put these thoughts somewhere because they have been sitting in my heart for a long time.
+
+You just enjoy your birthday. Smile a lot. Laugh a lot. Eat your favourite things. Make beautiful memories. 🎂✨
+
+And please don't overthink anything you read here. Just be happy, always. That's honestly one of the biggest things I wish for you. 🤍
+
+Last time… I'm sorry. If I ever made a mistake, if I ever hurt you, or if anything from my side caused you pain, I'm truly sorry.
+
+Happiest Birthday, Grishma. 🎂🦷🤍
+
+Please don't overthink.
+Please don't feel any pressure.
+And please be happy — always. 🌙✨
+
+You will always be one of my favourite people. 🤍`;
+
     const modalOverlay = document.getElementById('modalOverlay');
     const modalBody = document.getElementById('modalBody');
     const modalHint = document.getElementById('modalHint');
-    let typing = false, typeTimer = null, typedIndex = 0;
+    let typing = false, typeTimer = null, typedIndex = 0, currentMessage = fullMessage;
 
     function typeStep() {
-      if (typedIndex < fullMessage.length) {
+      if (typedIndex < currentMessage.length) {
         typedIndex++;
-        modalBody.textContent = fullMessage.slice(0, typedIndex);
-        const ch = fullMessage[typedIndex - 1];
-        typeTimer = setTimeout(typeStep, ch === '\n' ? 12 : 9);
+        modalBody.textContent = currentMessage.slice(0, typedIndex);
+        const ch = currentMessage[typedIndex - 1];
+        typeTimer = setTimeout(typeStep, ch === '\\n' ? 12 : 9);
       } else {
         typing = false;
         modalHint.textContent = 'happy birthday, Grishu 🤍';
       }
     }
 
-    function openLetter() {
+    function showLetter(message) {
+      if (typing) clearTimeout(typeTimer);
+      currentMessage = message;
+      typedIndex = 0;
+      typing = true;
+      modalBody.textContent = '';
+      modalHint.textContent = 'tap the letter to read it instantly';
       modalOverlay.classList.add('open');
       document.body.classList.add('locked');
-      if (typedIndex === 0 && !typing) {
-        typing = true;
-        modalHint.textContent = 'tap the letter to read it instantly';
-        typeStep();
-      }
+      typeStep();
     }
+
+    function openLetter() {
+      showLetter(fullMessage);
+    }
+
+    function openSecondLetter() {
+      showLetter(secondMessage);
+    }
+
     function closeLetter() {
+      if (typing) {
+        clearTimeout(typeTimer);
+        typing = false;
+      }
       modalOverlay.classList.remove('open');
       document.body.classList.remove('locked');
     }
+
     function skipTyping() {
       if (typing) {
         clearTimeout(typeTimer);
         typing = false;
-        typedIndex = fullMessage.length;
-        modalBody.textContent = fullMessage;
+        typedIndex = currentMessage.length;
+        modalBody.textContent = currentMessage;
         modalHint.textContent = 'happy birthday, Grishu 🤍';
       }
     }
